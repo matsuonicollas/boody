@@ -1,0 +1,294 @@
+{% comment %}
+  Shop the Look Section
+  Adicione este arquivo em: sections/shop-the-look.liquid
+{% endcomment %}
+
+<link rel="stylesheet" href="{{ 'shop-the-look.css' | asset_url }}">
+
+<section class="shop-the-look">
+  <div class="shop-the-look__inner">
+    <!-- Product Slider -->
+    <div class="shop-the-look__item shop-the-look__item--slider">
+      {% if section.settings.title != blank %}
+        <h3 class="shop-the-look__title">{{ section.settings.title }}</h3>
+      {% endif %}
+
+      <div class="swiper shop-the-look__swiper">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            {% if block.type == 'product' %}
+              {% assign product = block.settings.product %}
+              {% if product != blank %}
+                <div class="swiper-slide" data-index="{{ forloop.index0 }}">
+                  <div class="card-product">
+                    <div class="relative">
+                      <a href="{{ product.url }}" class="card-product__media">
+                        {% if product.featured_image %}
+                          <img src="{{ product.featured_image | img_url: '600x' }}" 
+                               alt="{{ product.featured_image.alt | escape }}"
+                               width="600"
+                               height="600"
+                               loading="lazy">
+                          {% if product.images[1] %}
+                            <img src="{{ product.images[1] | img_url: '600x' }}" 
+                                 alt="{{ product.images[1].alt | escape }}"
+                                 width="600"
+                                 height="600"
+                                 class="hover-img"
+                                 loading="lazy">
+                          {% endif %}
+                        {% else %}
+                          {{ 'product-1' | placeholder_svg_tag }}
+                        {% endif %}
+
+                        {% if product.compare_at_price > product.price %}
+                          <div class="sale-badge">Sale</div>
+                        {% endif %}
+                      </a>
+
+                      <!-- Quick Add Sizes -->
+                      <div class="card-product__sizes">
+                        <button type="button" 
+                                class="card-product__sizes-btn-toggle" 
+                                onclick="this.nextElementSibling.classList.toggle('active')">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 4V20" stroke="#111111" stroke-linecap="square"/>
+                            <path d="M4 12H20" stroke="#111111" stroke-linecap="square"/>
+                          </svg>
+                        </button>
+
+                        <div class="card-product__sizes-content">
+                          <div class="card-product__sizes-items">
+                            <ul>
+                              {% for variant in product.variants %}
+                                <li>
+                                  <button type="button" 
+                                          class="card-product__sizes-btn {% unless variant.available %}is-disabled{% endunless %}"
+                                          {% if variant.available %}
+                                            onclick="addToCart({{ variant.id }})"
+                                          {% else %}
+                                            disabled
+                                          {% endif %}>
+                                    {{ variant.title }}
+                                  </button>
+                                </li>
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="{{ product.url }}" class="card-product__content">
+                      <h6 class="card-product__title">{{ product.title }}</h6>
+                      <div class="card-product__price">
+                        {% if product.compare_at_price > product.price %}
+                          <del>{{ product.compare_at_price | money }}</del>
+                          <ins>{{ product.price | money }}</ins>
+                        {% else %}
+                          <span>{{ product.price | money }}</span>
+                        {% endif %}
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="swiper-buttons">
+          <button class="swiper-button swiper-button--prev">
+            <svg width="42" height="40" viewBox="0 0 42 40" fill="none">
+              <path d="M0 20H39.5675" stroke="#111111"/>
+              <path d="M31.2383 29.3713C33.565 24.2506 35.4083 22.1009 40.0008 20.0141C35.3058 17.7032 33.4834 15.5456 31.2383 10.6288" stroke="#111111"/>
+            </svg>
+          </button>
+          <button class="swiper-button swiper-button--next">
+            <svg width="42" height="40" viewBox="0 0 42 40" fill="none">
+              <path d="M0 20H39.5675" stroke="#111111"/>
+              <path d="M31.2383 29.3713C33.565 24.2506 35.4083 22.1009 40.0008 20.0141C35.3058 17.7032 33.4834 15.5456 31.2383 10.6288" stroke="#111111"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image with Hotspots -->
+    <div class="shop-the-look__item shop-the-look__item--media">
+      <ul class="shop-the-look__dots">
+        {% for block in section.blocks %}
+          {% if block.type == 'product' %}
+            <li style="top: {{ block.settings.dot_position_top }}%; left: {{ block.settings.dot_position_left }}%;">
+              <button class="{% if forloop.first %}is-current{% endif %}" 
+                      data-index="{{ forloop.index0 }}"
+                      aria-label="Ver produto {{ forloop.index }}">
+              </button>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+
+      <div class="shop-the-look__media">
+        {% if section.settings.image %}
+          <img src="{{ section.settings.image | img_url: '1400x' }}" 
+               alt="{{ section.settings.image.alt | escape }}"
+               width="1400"
+               height="1000"
+               loading="lazy">
+        {% else %}
+          {{ 'lifestyle-1' | placeholder_svg_tag }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js" defer></script>
+
+<script defer>
+  document.addEventListener('DOMContentLoaded', function() {
+    const swiperEl = document.querySelector('.shop-the-look__swiper');
+    if (!swiperEl) return;
+
+    const swiper = new Swiper(swiperEl, {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      navigation: {
+        nextEl: '.swiper-button--next',
+        prevEl: '.swiper-button--prev',
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20
+        }
+      },
+      on: {
+        slideChange: function() {
+          updateDots(this.activeIndex);
+        }
+      }
+    });
+
+    // Hotspot dots functionality
+    const dots = document.querySelectorAll('.shop-the-look__dots button');
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        swiper.slideTo(index);
+        updateDots(index);
+      });
+    });
+
+    function updateDots(activeIndex) {
+      dots.forEach((dot, index) => {
+        if (index === activeIndex) {
+          dot.classList.add('is-current');
+          dot.setAttribute('aria-current', 'true');
+        } else {
+          dot.classList.remove('is-current');
+          dot.setAttribute('aria-current', 'false');
+        }
+      });
+    }
+  });
+
+  // Add to cart function
+  function addToCart(variantId) {
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: variantId,
+        quantity: 1
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Refresh cart drawer or show notification
+      window.location.href = '/cart';
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Erro ao adicionar ao carrinho. Tente novamente.');
+    });
+  }
+
+  // Close size selector when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.card-product__sizes')) {
+      document.querySelectorAll('.card-product__sizes-content.active').forEach(el => {
+        el.classList.remove('active');
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Shop the Look",
+  "tag": "section",
+  "class": "section-shop-the-look",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "#ShopTheLook"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagem Principal"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Produto",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Selecionar Produto"
+        },
+        {
+          "type": "range",
+          "id": "dot_position_top",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Posição do Ponto (Topo)",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "dot_position_left",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Posição do Ponto (Esquerda)",
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop the Look",
+      "blocks": [
+        {
+          "type": "product"
+        },
+        {
+          "type": "product"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

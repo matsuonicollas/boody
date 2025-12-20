@@ -1,0 +1,190 @@
+{% comment %}
+  ESTILO FORÇADO (INLINE) PARA GARANTIR QUE O TEMA NÃO BLOQUEIE
+{% endcomment %}
+{% style %}
+  /* Garante que a seção ocupe o espaço correto */
+  .boody-trust-section-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+    margin: 20px auto 0 auto !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Container Grid Principal */
+  .boody-trust-container {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important; /* 3 colunas forçadas */
+    width: 100% !important;
+    border: 1px solid #e8dcd7;
+    background: transparent; /* Fundo transparente */
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    gap: 0 !important; /* Remove gap padrão do grid para usar bordas */
+  }
+
+  /* Item Individual */
+  .boody-trust-item {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 20px 10px !important;
+    min-height: 110px;
+    border-right: 1px solid #e8dcd7;
+    box-sizing: border-box !important;
+    gap: 10px !important;
+    width: auto !important; /* Deixa o grid controlar a largura */
+  }
+
+  /* Remove borda do último item */
+  .boody-trust-item:last-child {
+    border-right: none !important;
+  }
+
+  /* Ícones */
+  .boody-trust-item svg {
+    width: 26px !important;
+    height: 26px !important;
+    stroke: #4a3c36;
+    stroke-width: 1.2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.95;
+    display: block !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Textos */
+  .boody-trust-text-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    align-items: center !important;
+  }
+
+  .boody-trust-title {
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    color: #4a3c36 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.02em !important;
+    text-transform: none !important;
+  }
+
+  .boody-trust-sub {
+    font-size: 0.75rem !important;
+    color: #7d6d68 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+    font-weight: 400 !important;
+  }
+
+  /* --- MOBILE (Telas menores que 768px) --- */
+  @media (max-width: 768px) {
+    .boody-trust-container {
+      display: flex !important; /* Muda para Flex vertical */
+      flex-direction: column !important;
+      width: 100% !important;
+      border-radius: 0 !important;
+    }
+
+    .boody-trust-item {
+      width: 100% !important;
+      min-height: auto !important;
+      padding: 16px 20px !important;
+      
+      /* Alinhamento Horizontal (Ícone Esquerda / Texto Direita) */
+      flex-direction: row !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+      text-align: left !important;
+      
+      border-right: none !important;
+      border-bottom: 1px solid #e8dcd7 !important;
+      gap: 18px !important;
+    }
+
+    .boody-trust-item:last-child {
+      border-bottom: none !important;
+    }
+    
+    /* No mobile, alinha o texto à esquerda */
+    .boody-trust-text-group {
+      align-items: flex-start !important;
+    }
+
+    .boody-trust-item svg {
+      width: 24px !important;
+      height: 24px !important;
+      flex-shrink: 0 !important;
+    }
+    
+    .boody-trust-title {
+        font-size: 0.85rem !important;
+    }
+  }
+{% endstyle %}
+
+<div class="boody-trust-section-wrapper">
+  <div class="boody-trust-container">
+
+    <div class="boody-trust-item">
+      <svg viewBox="0 0 24 24">
+        <rect x="1" y="3" width="15" height="13"></rect>
+        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+      </svg>
+      <div class="boody-trust-text-group">
+          <p class="boody-trust-title">Envio Imediato</p>
+          <p class="boody-trust-sub">Para todo o Brasil</p>
+      </div>
+    </div>
+
+    <div class="boody-trust-item">
+      <svg viewBox="0 0 24 24">
+        <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+        <path d="M3 3v5h5"/>
+        <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+        <path d="M16 16h5v5"/>
+      </svg>
+      <div class="boody-trust-text-group">
+          <p class="boody-trust-title">Troca Fácil</p>
+          <p class="boody-trust-sub">1ª troca grátis</p>
+      </div>
+    </div>
+
+    <div class="boody-trust-item">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+        <path d="m9 12 2 2 4-4"/>
+      </svg>
+      <div class="boody-trust-text-group">
+          <p class="boody-trust-title">Compra Segura</p>
+          <p class="boody-trust-sub">Pagamento protegido</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Boody Trust Badges",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Boody Trust Badges"
+    }
+  ]
+}
+{% endschema %}
