@@ -259,16 +259,13 @@
 
 <div class="cart__ctas">
   <button
-    type="submit"
-    id="checkout"
-    class="cart__checkout-button button"
-    name="checkout"
-    {% if cart == empty %}
-      disabled
-    {% endif %}
-    form="cart-form"
+  type="button"
+  id="checkout-yampi"
+  class="cart__checkout-button button"
+  onclick="getNewCheckoutURL()"
+  {% if cart == empty %}disabled{% endif %}
   >
-    {{ 'content.checkout' | t }}
+  Finalizar Compra
   </button>
 
   {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
